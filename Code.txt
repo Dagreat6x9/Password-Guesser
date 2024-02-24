@@ -1,0 +1,33 @@
+import itertools
+import string
+import time
+
+# Function to generate all possible combinations
+def generate_combinations(length):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    return itertools.product(characters, repeat=length)
+
+# Function to guess the password
+def guess_password(password):
+    start_time = time.time()
+    max_length = 8  # Maximum length of the password to guess
+    combinations_tried = 0
+
+    # Try all combinations of lengths from 1 to max_length
+    for length in range(1, max_length + 1):
+        for combination in generate_combinations(length):
+            attempt = ''.join(combination)
+            combinations_tried += 1
+            if attempt == password:
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                return attempt, elapsed_time, combinations_tried
+
+# Example usage
+if __name__ == "__main__":
+    password = "Secret@123"  # Change this to the actual password to guess
+    print("Guessing password...")
+    guessed_password, time_taken, combinations_tried = guess_password(password)
+    print("Password guessed:", guessed_password)
+    print("Time taken:", round(time_taken, 2), "seconds")
+    print("Total combinations tried:", combinations_tried)
